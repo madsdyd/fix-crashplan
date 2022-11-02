@@ -74,7 +74,9 @@ test "x${CRASHPLAN_INSTALL_FILE}" != "x" || usage
 test -f "${CRASHPLAN_INSTALL_FILE}" || die "Unable to find file at ${CRASHPLAN_INSTALL_FILE}"
 
 # Check the filename matches expectations
-OK=$(echo ${CRASHPLAN_INSTALL_FILE} | sed  's/CrashPlanSmb_10\.[0-9]\+\.[0-9]\+_[0-9]\+_[0-9]\+_Linux.tgz/OK/')
+# Prevent issues w/ leading paths
+CRASHPLAN_INSTALL_FILENAME="$(basename $CRASHPLAN_INSTALL_FILE)"
+OK=$(echo ${CRASHPLAN_INSTALL_FILENAME} | sed  's/CrashPlanSmb_10\.[0-9]\+\.[0-9]\+_[0-9]\+_[0-9]\+_Linux.tgz/OK/')
 test "x${OK}" = "xOK" || die "Filename does not match expected pattern of 'CrashPlanSmb_10.X.X_XXXXXXXXXXXXXX_XX_Linux.tgz'"
 
 # And, check that it has the right filetype
